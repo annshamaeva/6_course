@@ -13,9 +13,10 @@ const server = http.createServer((request, response) => {
 
    // с помощью has мы можем понять, есть ли такой параметр users в запросе - has вернет true, когда параметр есть и false, когда параметра не было.
     if (url.searchParams.has('users')) {
-        response.statusCode = 200; // статус ответа 200
-        response.statusMessage = "OK"; // сообщение ОК
-        response.header = "Content-Type: application/json"; // чтобы понимать, что добавляем именно строку
+        // response.statusCode = 200; // статус ответа 200
+        // response.statusMessage = "OK"; // сообщение ОК
+        // response.header = "Content-Type: application/json"; // чтобы понимать, что добавляем именно строку
+        response.writeHead(200, {'Content-Type': 'application/json'});
         response.write(getUsers()); // передадим в тело сообщения строку hello, world
         response.end();
 
@@ -25,13 +26,15 @@ const server = http.createServer((request, response) => {
     if (url.searchParams.has('hello')) {
         // Проверка, что есть значение 
         if (url.searchParams.get('hello').length > 0) { 
-        response.statusCode = 200; // статус ответа 200
-        response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+        // response.statusCode = 200; // статус ответа 200
+        // response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+        response.writeHead(200, { "Content-Type": "text/plain" });
         response.write('Hallo, ' + url.searchParams.get('hello')); // передадим в тело сообщения строку hello, name
         response.end();
     } else {
-        response.statusCode = 400; // статус ответа 400
-        response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+        // response.statusCode = 400; // статус ответа 400
+        // response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+        response.writeHead(400, { 'Content-Type': 'text/plain' });
         response.write("Enter a name"); // передадим в тело сообщения строку hello, world
         response.end();    
     }
@@ -41,8 +44,9 @@ const server = http.createServer((request, response) => {
     
     for (const key of url.searchParams.keys()) {
         if (key !== 'hello' && key !== 'users') {
-            response.statusCode = 500
-            response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+            // response.statusCode = 500
+            // response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+            response.writeHead(500, { 'Content-Type': 'text/plain' });
             response.write("Пустой ответ"); // передадим в тело сообщения строку 
             response.end();
 
@@ -50,9 +54,10 @@ const server = http.createServer((request, response) => {
         }
     }
     // на любой запрос отвечает hello, world
-    response.statusCode = 200; // статус ответа 200
-    response.statusMessage = "OK"; // сообщение ОК
-    response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+    // response.statusCode = 200; // статус ответа 200
+    // response.statusMessage = "OK"; // сообщение ОК
+    // response.header = "Content-Type: text/plain"; // чтобы понимать, что добавляем именно строку
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
     response.write("Hello, World!"); // передадим в тело сообщения строку hello, world
     response.end();
 
